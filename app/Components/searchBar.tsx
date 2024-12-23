@@ -2,8 +2,11 @@
 
 import { use, useEffect, useState } from "react"
 
+interface SearchBarProps {
+    add: (data: any) => void;
+}
 
-const SearchBar: React.FC = ()  =>{
+const SearchBar: React.FC<SearchBarProps> = ({add})  => {
 
     const [name, setName] = useState('')
     const [count, setCount] = useState(1)
@@ -29,7 +32,11 @@ const SearchBar: React.FC = ()  =>{
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response;
+                return response.json()
+            })
+            .then(data => {
+                console.log(data);
+                add(data);
             })
             .catch(error => {
                 console.error('Error:', error)
